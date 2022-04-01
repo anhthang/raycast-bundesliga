@@ -12,21 +12,41 @@ const competitionMap: { [competition: string]: string } = {
 function ClubDetails(team: Club) {
   return (
     <Detail
+      navigationTitle={`${team.name.full} | Club`}
       markdown={json2md([
         { h1: team.name.withFormOfCompany },
+        {
+          p: [
+            `Street: ${team.contact.street}`,
+            `City: ${team.contact.city}`,
+            `Directions: [Open with maps](${team.stadium.mapsUrl})`,
+            `Phone: ${team.contact.phone}`,
+            `Fax: ${team.contact.fax}`,
+          ],
+        },
         { img: { source: team.logos[0].uri } },
       ])}
       metadata={
         team && (
           <Detail.Metadata>
             <Detail.Metadata.Label title="Founded" text={team.founded} />
+            <Detail.Metadata.TagList title="Club Colors">
+              <Detail.Metadata.TagList.Item
+                color={team.colors.club.primary.hex}
+                text={team.colors.club.primary.hex}
+              />
+              <Detail.Metadata.TagList.Item
+                color={team.colors.club.secondary.hex}
+                text={team.colors.club.secondary.hex}
+              />
+            </Detail.Metadata.TagList>
             <Detail.Metadata.Label title="Stadium" text={team.stadium.name} />
             <Detail.Metadata.Label
               title="Capacity"
               text={team.stadium.capacity}
             />
             <Detail.Metadata.Link
-              title="Official Website"
+              title="Website"
               text={team.contact.homepage}
               target={team.contact.homepage}
             />
@@ -60,6 +80,16 @@ function ClubDetails(team: Club) {
           <ActionPanel>
             <Action.OpenInBrowser
               url={`https://www.bundesliga.com/en/bundesliga/clubs/${team.name.slugifiedFull}`}
+            />
+            <Action.Push
+              title="Squad"
+              icon={Icon.Person}
+              target={
+                <ClubPersons
+                  navigationTitle={`Squad | ${team.name.full} | Club`}
+                  club={team.id}
+                />
+              }
             />
           </ActionPanel>
         )
@@ -106,11 +136,6 @@ export default function Club() {
                         title="Show Details"
                         icon={Icon.Sidebar}
                         target={<ClubDetails {...team} />}
-                      />
-                      <Action.Push
-                        title="Show Club Persons"
-                        icon={Icon.Person}
-                        target={<ClubPersons club={team.id} />}
                       />
                     </ActionPanel>
                   }

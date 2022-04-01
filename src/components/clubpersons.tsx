@@ -2,11 +2,16 @@ import { List } from "@raycast/api";
 import { usePersons } from "../hooks/useClubs";
 import { getFlagEmoji } from "../utils";
 
-export default function ClubPersons(props: { club: string }) {
+type PropsType = {
+  club: string;
+  navigationTitle: string;
+};
+
+export default function ClubPersons(props: PropsType) {
   const { players, loading } = usePersons(props.club);
 
   return (
-    <List throttle isLoading={loading}>
+    <List navigationTitle={props.navigationTitle} throttle isLoading={loading}>
       {Object.entries(players).map(([position, persons]) => {
         return (
           <List.Section key={position} title={position}>
