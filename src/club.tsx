@@ -115,7 +115,7 @@ export default function Club() {
                   icon={{
                     source: `https://www.bundesliga.com/assets/clublogo/${team.id}.svg`,
                     // source: team.logos[0].uri,
-                    fallback: "player-missing.png",
+                    fallback: "default_clublogo.svg",
                   }}
                   accessories={[
                     {
