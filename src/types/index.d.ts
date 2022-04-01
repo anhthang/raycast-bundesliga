@@ -74,10 +74,14 @@ export enum ID {
 }
 
 export interface Name {
+  alias: null | string;
+  shortName: null;
   full: string;
   small: string;
   slugifiedFull: string;
-  slugifiedSmall: string;
+  slugifiedShort: string;
+  first: string;
+  last: string;
   withFormOfCompany: string;
 }
 
@@ -92,4 +96,55 @@ export interface Stadium {
   mapsUrl: string;
   stadiumIconUrlBlack: string;
   stadiumIconUrlWhite: string;
+}
+
+export interface ClubPerson {
+  roles: Roles;
+  players: Players;
+}
+
+export interface Players {
+  MIDFIELD: Player[];
+  DEFENSE: Player[];
+  ATTACK: Player[];
+  GOALKEEPER: Player[];
+}
+
+export interface Player {
+  name: Name;
+  nationality: Nationality;
+  shirtNumber: string;
+  externalPersonIds: ExternalPersonIDS;
+  lastUpdate: Date;
+  id: string;
+  playerImages: PlayerImages;
+}
+
+export interface ExternalPersonIDS {
+  dflDatalibraryPersonId: string;
+}
+
+export interface Nationality {
+  firstNationality: string;
+  firstNationalityCode: string;
+  secondNationality: null | string;
+  secondNationalityCode: null | string;
+  thirdNationality: null | string;
+  thirdNationalityCode: null | string;
+}
+
+export interface PlayerImages {
+  FACE_CIRCLE: string;
+}
+
+export interface Roles {
+  DL_OTHER_OFFICIAL: DL[];
+  DL_HEAD_COACH: DL[];
+  DL_ASSISTANT_HEAD_COACH: DL[];
+}
+
+export interface DL {
+  name: Name;
+  externalPersonIds: ExternalPersonIDS;
+  id: string;
 }

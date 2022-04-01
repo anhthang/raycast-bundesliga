@@ -1,5 +1,6 @@
 import { Action, ActionPanel, Detail, Icon, List } from "@raycast/api";
 import json2md from "json2md";
+import ClubPersons from "./components/clubpersons";
 import { useClubs } from "./hooks";
 import { Club } from "./types";
 
@@ -12,7 +13,7 @@ function ClubDetails(team: Club) {
   return (
     <Detail
       markdown={json2md([
-        { h1: team.name.full },
+        { h1: team.name.withFormOfCompany },
         { img: { source: team.logos[0].uri } },
       ])}
       metadata={
@@ -105,6 +106,11 @@ export default function Club() {
                         title="Show Details"
                         icon={Icon.Sidebar}
                         target={<ClubDetails {...team} />}
+                      />
+                      <Action.Push
+                        title="Show Club Persons"
+                        icon={Icon.Person}
+                        target={<ClubPersons club={team.id} />}
                       />
                     </ActionPanel>
                   }
