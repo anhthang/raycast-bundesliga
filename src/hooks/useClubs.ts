@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { getClubs } from "../api";
-import { Club } from "../types";
+import { CompetitionClub } from "../types";
 
 export const useClubs = () => {
-  const [clubs, setClubs] = useState<Club[]>([]);
+  const [clubs, setClubs] = useState<Partial<CompetitionClub>>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ export const useClubs = () => {
       setClubs(data);
       setLoading(false);
     });
-  });
+  }, []);
 
   return { clubs, loading };
 };

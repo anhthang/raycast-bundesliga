@@ -3,6 +3,11 @@ import json2md from "json2md";
 import { useClubs } from "./hooks";
 import { Club } from "./types";
 
+const competitionMap: { [competition: string]: string } = {
+  bundesliga: "Bundesliga",
+  "2bundesliga": "2. Bundesliga",
+};
+
 function ClubDetails(team: Club) {
   return (
     <Detail
@@ -67,40 +72,46 @@ export default function Club() {
 
   return (
     <List throttle isLoading={club.loading}>
-      {club.clubs.map((team) => {
+      {Object.entries(club.clubs).map(([competition, clubs]) => {
         return (
-          <List.Item
-            key={team.id}
-            title={team.name.full}
-            subtitle={team.threeLetterCode}
-            icon={{
-              source: `https://www.bundesliga.com/assets/clublogo/${team.id}.svg`,
-              // source: team.logos[0].uri,
-              fallback: "player-missing.png",
-            }}
-            accessories={[
-              {
-                text: team.stadium.name,
-              },
-              {
-                icon: {
-                  source: {
-                    dark: team.stadium.stadiumIconUrlWhite,
-                    light: team.stadium.stadiumIconUrlBlack,
-                  },
-                },
-              },
-            ]}
-            actions={
-              <ActionPanel>
-                <Action.Push
-                  title="Show Details"
-                  icon={Icon.Sidebar}
-                  target={<ClubDetails {...team} />}
+          <List.Section key={competition} title={competitionMap[competition]}>
+            {clubs.map((team) => {
+              return (
+                <List.Item
+                  key={team.id}
+                  title={team.name.full}
+                  subtitle={team.threeLetterCode}
+                  icon={{
+                    source: `https://www.bundesliga.com/assets/clublogo/${team.id}.svg`,
+                    // source: team.logos[0].uri,
+                    fallback: "player-missing.png",
+                  }}
+                  accessories={[
+                    {
+                      text: team.stadium.name,
+                    },
+                    {
+                      icon: {
+                        source: {
+                          dark: team.stadium.stadiumIconUrlWhite,
+                          light: team.stadium.stadiumIconUrlBlack,
+                        },
+                      },
+                    },
+                  ]}
+                  actions={
+                    <ActionPanel>
+                      <Action.Push
+                        title="Show Details"
+                        icon={Icon.Sidebar}
+                        target={<ClubDetails {...team} />}
+                      />
+                    </ActionPanel>
+                  }
                 />
-              </ActionPanel>
-            }
-          />
+              );
+            })}
+          </List.Section>
         );
       })}
     </List>
