@@ -1,3 +1,3 @@
-import { useClubs } from "./useClubs";
+import { useClubs, usePerson, usePersons } from "./useClubs";
 
-export { useClubs };
+export { useClubs, usePerson, usePersons };

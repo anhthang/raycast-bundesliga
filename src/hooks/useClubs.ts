@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getClubs, getPersons } from "../api";
-import { CompetitionClub, Players } from "../types";
+import { getClubs, getPerson, getPersons } from "../api";
+import { CompetitionClub, Player, Players } from "../types";
 
 export const useClubs = () => {
   const [clubs, setClubs] = useState<Partial<CompetitionClub>>({});
@@ -30,4 +30,19 @@ export const usePersons = (club: string) => {
   }, [club]);
 
   return { players, loading };
+};
+
+export const usePerson = (slug: string) => {
+  const [player, setPlayer] = useState<Player | undefined>(undefined);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    setLoading(true);
+    getPerson(slug).then((data) => {
+      setPlayer(data);
+      setLoading(false);
+    });
+  }, [slug]);
+
+  return { player, loading };
 };

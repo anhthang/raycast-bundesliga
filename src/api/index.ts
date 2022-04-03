@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { showToast, Toast } from "@raycast/api";
-import { ClubPerson, CompetitionClub, Players } from "../types";
+import { ClubPerson, CompetitionClub, Player, Players } from "../types";
 
 function showFailureToast() {
   showToast(
@@ -17,7 +17,11 @@ const headers = {
 export const getClubs = async (): Promise<Partial<CompetitionClub>> => {
   const config: AxiosRequestConfig = {
     method: "get",
-    url: "https://wapp.bapi.bundesliga.com/club/?sort=editorialorder&seasonId=DFL-SEA-0001K5",
+    url: "https://wapp.bapi.bundesliga.com/club",
+    params: {
+      // sort: "editorialorder",
+      seasonId: "DFL-SEA-0001K5",
+    },
     headers,
   };
 
@@ -47,5 +51,23 @@ export const getPersons = async (club: string): Promise<Partial<Players>> => {
     showFailureToast();
 
     return {};
+  }
+};
+
+export const getPerson = async (slug: string): Promise<Player | undefined> => {
+  const config: AxiosRequestConfig = {
+    method: "get",
+    url: `https://wapp.bapi.bundesliga.com/person/personbyslug/${slug}`,
+    headers,
+  };
+
+  try {
+    const { data }: AxiosResponse<Player> = await axios(config);
+
+    return data;
+  } catch (e) {
+    showFailureToast();
+
+    return undefined;
   }
 };

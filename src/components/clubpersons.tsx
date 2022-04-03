@@ -1,6 +1,7 @@
-import { List } from "@raycast/api";
-import { usePersons } from "../hooks/useClubs";
+import { Action, ActionPanel, List, Icon } from "@raycast/api";
+import { usePersons } from "../hooks";
 import { getFlagEmoji } from "../utils";
+import Person from "./person";
 
 type PropsType = {
   club: string;
@@ -44,6 +45,15 @@ export default function ClubPersons(props: PropsType) {
                     fallback: "player-circle-default.png",
                   }}
                   {...props}
+                  actions={
+                    <ActionPanel>
+                      <Action.Push
+                        title="Player Profile"
+                        icon={Icon.Sidebar}
+                        target={<Person {...person.name} />}
+                      />
+                    </ActionPanel>
+                  }
                 />
               );
             })}

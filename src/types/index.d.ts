@@ -17,31 +17,26 @@ export interface Club {
 }
 
 export interface Colors {
-  club: Club;
+  club: ClubColor;
   jersey: Jersey;
 }
 
-export interface Club {
-  primary: Primary;
-  primaryText: Primary;
-  secondary: Primary;
-  secondaryText: Primary;
-}
-
-export interface Primary {
-  hex: string;
-}
-
 export interface Jersey {
-  home: Alternative;
-  away: Alternative;
-  alternative: Alternative;
+  home: ClubColor;
+  away: ClubColor;
+  alternative: ClubColor;
 }
 
-export interface Alternative {
-  primary: Primary;
-  secondary: Primary;
-  number: Primary;
+export interface ClubColor {
+  primary: Color;
+  primaryText: Color;
+  secondary: Color;
+  secondaryText: Color;
+  number: Color;
+}
+
+export interface Color {
+  hex: string;
 }
 
 export interface Contact {
@@ -112,12 +107,23 @@ export interface Players {
 
 export interface Player {
   name: Name;
-  nationality: Nationality;
-  shirtNumber: string;
-  externalPersonIds: ExternalPersonIDS;
-  lastUpdate: Date;
   id: string;
+  singlePlayerImage: string;
+  shirtNumber: string;
+  playertext: Playertext[];
+  playertextGenerationDate: Date;
+  names: Name;
+  club: Club;
+  nationality: Nationality;
+  birth: Birth;
+  bio: Bio;
+  externalPersonIds: ExternalPersonIDS;
+  canceled: boolean;
+  lastUpdate: Date;
   playerImages: PlayerImages;
+  apprentice: string;
+  modelType: string;
+  position: string;
 }
 
 export interface ExternalPersonIDS {
@@ -134,7 +140,13 @@ export interface Nationality {
 }
 
 export interface PlayerImages {
+  PORTRAIT_XXS: string;
+  PORTRAIT_XS: string;
+  PORTRAIT_S: string;
+  PORTRAIT_M: string;
+  PORTRAIT_L: string;
   FACE_CIRCLE: string;
+  HALF_BODY: string;
 }
 
 export interface Roles {
@@ -147,4 +159,32 @@ export interface DL {
   name: Name;
   externalPersonIds: ExternalPersonIDS;
   id: string;
+}
+
+export interface Bio {
+  height: Height;
+  weight: Weight;
+  sex: string;
+}
+
+export interface Height {
+  unit: string;
+  height: number;
+}
+
+export interface Weight {
+  unit: string;
+  weight: number;
+}
+
+export interface Birth {
+  country: string;
+  date: Date;
+  place: string;
+  countryCode: string;
+}
+
+export interface Playertext {
+  paragraphs: string[];
+  heading?: string;
 }
