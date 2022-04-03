@@ -3,7 +3,7 @@ import { getClubs, getPerson, getPersons } from "../api";
 import { CompetitionClub, Player, Players } from "../types";
 
 export const useClubs = () => {
-  const [clubs, setClubs] = useState<Partial<CompetitionClub>>({});
+  const [clubs, setClubs] = useState<CompetitionClub>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export const useClubs = () => {
 };
 
 export const usePersons = (club: string) => {
-  const [players, setPlayers] = useState<Partial<Players>>({});
+  const [players, setPlayers] = useState<Players>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {

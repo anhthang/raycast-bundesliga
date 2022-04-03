@@ -14,7 +14,7 @@ const headers = {
   "x-api-key": "60ETUJ4j5YagIHdu-PROD",
 };
 
-export const getClubs = async (): Promise<Partial<CompetitionClub>> => {
+export const getClubs = async (): Promise<CompetitionClub> => {
   const config: AxiosRequestConfig = {
     method: "get",
     url: "https://wapp.bapi.bundesliga.com/club",
@@ -36,7 +36,7 @@ export const getClubs = async (): Promise<Partial<CompetitionClub>> => {
   }
 };
 
-export const getPersons = async (club: string): Promise<Partial<Players>> => {
+export const getPersons = async (club: string): Promise<Players> => {
   const config: AxiosRequestConfig = {
     method: "get",
     url: `https://wapp.bapi.bundesliga.com/person/personsbyclub/${club}`,

@@ -1,6 +1,5 @@
 export interface CompetitionClub {
-  "2bundesliga": Club[];
-  bundesliga: Club[];
+  [competition: string]: Club[];
 }
 
 export interface Club {
@@ -99,10 +98,7 @@ export interface ClubPerson {
 }
 
 export interface Players {
-  MIDFIELD: Player[];
-  DEFENSE: Player[];
-  ATTACK: Player[];
-  GOALKEEPER: Player[];
+  [position: string]: Player[];
 }
 
 export interface Player {
