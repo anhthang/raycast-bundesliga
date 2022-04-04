@@ -1,6 +1,8 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { showToast, Toast } from "@raycast/api";
+import * as cheerio from "cheerio";
 import { ClubPerson, CompetitionClub, Player, Players } from "../types";
+import { Entry } from "../types/firebase";
 
 function showFailureToast() {
   showToast(
@@ -69,5 +71,29 @@ export const getPerson = async (slug: string): Promise<Player | undefined> => {
     showFailureToast();
 
     return undefined;
+  }
+};
+
+export const getTable = async (): Promise<Entry[]> => {
+  const config: AxiosRequestConfig = {
+    method: "get",
+    url: "https://www.bundesliga.com/en/bundesliga/table",
+  };
+
+  try {
+    const { data } = await axios(config);
+
+    const $ = cheerio.load(data);
+    const state = $("#my-app-state").html();
+    if (state) {
+      const fbData = JSON.parse(state.replace(/&q;/g, '"'));
+      return fbData["_getDataFromFirebase-en/DFL-COM-000001/liveTable"].entries;
+    }
+
+    return [];
+  } catch (e) {
+    showFailureToast();
+
+    return [];
   }
 };
