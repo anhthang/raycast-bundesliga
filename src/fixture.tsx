@@ -1,18 +1,37 @@
 import { Action, ActionPanel, List } from "@raycast/api";
+import { useState } from "react";
 import { useFixtures } from "./hooks";
 
 export default function Fixture() {
-  const { fixtures, loading } = useFixtures();
+  const [competition, setCompetition] = useState<string>("bundesliga");
+  const { fixtures, loading } = useFixtures(competition);
 
   return (
-    <List throttle isLoading={loading}>
+    <List
+      throttle
+      isLoading={loading}
+      searchBarAccessory={
+        <List.Dropdown
+          tooltip="Filter by Competition"
+          onChange={setCompetition}
+        >
+          <List.Dropdown.Item title="Bundesliga" value="bundesliga" />
+          <List.Dropdown.Item title="2. Bundesliga" value="2bundesliga" />
+        </List.Dropdown>
+      }
+    >
       <List.Section title={fixtures[0]?.matchdayLabel}>
         {fixtures.map((fixture) => {
           const { teams, score } = fixture;
+
           return (
             <List.Item
               key={fixture.seasonOrder}
-              title={`${(teams.home.nameFull)} ${score.home.live} - ${score.away.live} ${teams.away.nameFull}`}
+              title={
+                score
+                  ? `${teams.home.nameFull} ${score.home.live} - ${score.away.live} ${teams.away.nameFull}`
+                  : `${teams.home.nameFull} - ${teams.away.nameFull}`
+              }
               accessories={[
                 { text: fixture.stadiumName },
                 {

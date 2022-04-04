@@ -74,10 +74,10 @@ export const getPerson = async (slug: string): Promise<Player | undefined> => {
   }
 };
 
-export const getTable = async (): Promise<Entry[]> => {
+export const getTable = async (competition: string): Promise<Entry[]> => {
   const config: AxiosRequestConfig = {
     method: "get",
-    url: "https://www.bundesliga.com/en/bundesliga/table",
+    url: `https://www.bundesliga.com/en/${competition}/table`,
   };
 
   try {
@@ -87,7 +87,11 @@ export const getTable = async (): Promise<Entry[]> => {
     const state = $("#my-app-state").html();
     if (state) {
       const fbData = JSON.parse(state.replace(/&q;/g, '"'));
-      return fbData["_getDataFromFirebase-en/DFL-COM-000001/liveTable"].entries;
+      const key = Object.keys(fbData).find((k) =>
+        k.startsWith("_getDataFromFirebase")
+      );
+
+      return key ? fbData[key].entries : [];
     }
 
     return [];
@@ -98,10 +102,10 @@ export const getTable = async (): Promise<Entry[]> => {
   }
 };
 
-export const getResults = async (): Promise<Matchday[]> => {
+export const getResults = async (competition: string): Promise<Matchday[]> => {
   const config: AxiosRequestConfig = {
     method: "get",
-    url: "https://www.bundesliga.com/en/bundesliga/matchday",
+    url: `https://www.bundesliga.com/en/${competition}/matchday`,
   };
 
   try {

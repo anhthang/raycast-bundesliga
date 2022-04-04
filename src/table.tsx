@@ -5,7 +5,8 @@ import { useTable } from "./hooks";
 import { Entry } from "./types/firebase";
 
 export default function Table() {
-  const { table, loading } = useTable();
+  const [competition, setCompetition] = useState<string>("bundesliga");
+  const { table, loading } = useTable(competition);
   const [showStats, setShowStats] = useState<boolean>(false);
 
   const clubStats = (entry: Entry): json2md.DataObject => {
@@ -27,7 +28,20 @@ export default function Table() {
   };
 
   return (
-    <List throttle isLoading={loading} isShowingDetail={showStats}>
+    <List
+      throttle
+      isLoading={loading}
+      isShowingDetail={showStats}
+      searchBarAccessory={
+        <List.Dropdown
+          tooltip="Filter by Competition"
+          onChange={setCompetition}
+        >
+          <List.Dropdown.Item title="Bundesliga" value="bundesliga" />
+          <List.Dropdown.Item title="2. Bundesliga" value="2bundesliga" />
+        </List.Dropdown>
+      }
+    >
       {table.map((entry) => {
         let icon: Image.ImageLike = {
           source: Icon.Dot,
