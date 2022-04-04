@@ -18,6 +18,13 @@
       "mode": "view"
     },
     {
+      "name": "fixture",
+      "title": "Fixtures & Results",
+      "subtitle": "Bundesliga",
+      "description": "All dates, venues and results for the current matchday of the season Bundesliga 2021-2022",
+      "mode": "view"
+    },
+    {
       "name": "club",
       "title": "Clubs",
       "subtitle": "Bundesliga",

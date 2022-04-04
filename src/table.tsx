@@ -54,10 +54,7 @@ export default function Table() {
               source: entry.club.logoUrl,
               fallback: "default_clublogo.svg",
             }}
-            accessories={[
-              { text: entry.points.toString() },
-              { icon }
-            ]}
+            accessories={[{ text: entry.points.toString() }, { icon }]}
             detail={<List.Item.Detail markdown={json2md(clubStats(entry))} />}
             actions={
               <ActionPanel>
