@@ -17,6 +17,16 @@ export default function Person(props: Name) {
             source: player.playerImages.HALF_BODY,
           },
         },
+        (player.playertext || []).map((text) => {
+          return [
+            {
+              h2: text.heading || "",
+            },
+            {
+              p: text.paragraphs,
+            },
+          ];
+        }),
       ])}
       metadata={
         <Detail.Metadata>

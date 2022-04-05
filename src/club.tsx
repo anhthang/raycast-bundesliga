@@ -5,7 +5,8 @@ import ClubPersons from "./components/clubpersons";
 import { useClubs } from "./hooks";
 import { Club } from "./types";
 
-function ClubDetails(team: Club) {
+function ClubDetails(props: { team: Club; competition: string }) {
+  const { team, competition } = props;
   return (
     <Detail
       navigationTitle={`${team.name.full} | Club`}
@@ -75,7 +76,7 @@ function ClubDetails(team: Club) {
         team && (
           <ActionPanel>
             <Action.OpenInBrowser
-              url={`https://www.bundesliga.com/en/bundesliga/clubs/${team.name.slugifiedFull}`}
+              url={`https://www.bundesliga.com/en/${competition}/clubs/${team.name.slugifiedFull}`}
             />
             <Action.Push
               title="Squad"
@@ -141,7 +142,7 @@ export default function Club() {
                 <Action.Push
                   title="Show Details"
                   icon={Icon.Sidebar}
-                  target={<ClubDetails {...team} />}
+                  target={<ClubDetails team={team} competition={competition} />}
                 />
               </ActionPanel>
             }

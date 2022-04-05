@@ -46,7 +46,7 @@ export default function Fixture() {
               actions={
                 <ActionPanel>
                   <Action.OpenInBrowser
-                    url={`https://www.bundesliga.com/en/bundesliga/matchday/2021-2022/${fixture.matchday}/${fixture.slugs.slugLong}`}
+                    url={`https://www.bundesliga.com/en/${competition}/matchday/2021-2022/${fixture.matchday}/${fixture.slugs.slugLong}`}
                   />
                 </ActionPanel>
               }

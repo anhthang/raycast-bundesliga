@@ -106,7 +106,7 @@ export interface Player {
   id: string;
   singlePlayerImage: string;
   shirtNumber: string;
-  playertext: Playertext[];
+  playertext?: Playertext[];
   playertextGenerationDate: Date;
   names: Name;
   club: Club;
