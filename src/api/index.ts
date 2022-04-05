@@ -16,6 +16,26 @@ const headers = {
   "x-api-key": "60ETUJ4j5YagIHdu-PROD",
 };
 
+function load(html: string) {
+  const $ = cheerio.load(html);
+  const state = $("#my-app-state").html();
+
+  let data: any = {};
+  if (state) {
+    try {
+      data = JSON.parse(state.replace(/&q;/g, '"').replace(/&s;/g, "'"));
+    } catch (error) {
+      // nothing to do
+    }
+  }
+
+  const key = Object.keys(data).find((k) =>
+    k.startsWith("_getDataFromFirebase")
+  );
+
+  return key ? data[key] : {};
+}
+
 export const getClubs = async (): Promise<CompetitionClub> => {
   const config: AxiosRequestConfig = {
     method: "get",
@@ -81,20 +101,10 @@ export const getTable = async (competition: string): Promise<Entry[]> => {
   };
 
   try {
-    const { data } = await axios(config);
+    const resp = await axios(config);
+    const data = load(resp.data);
 
-    const $ = cheerio.load(data);
-    const state = $("#my-app-state").html();
-    if (state) {
-      const fbData = JSON.parse(state.replace(/&q;/g, '"'));
-      const key = Object.keys(fbData).find((k) =>
-        k.startsWith("_getDataFromFirebase")
-      );
-
-      return key ? fbData[key].entries : [];
-    }
-
-    return [];
+    return data.entries || [];
   } catch (e) {
     showFailureToast();
 
@@ -109,20 +119,10 @@ export const getResults = async (competition: string): Promise<Matchday[]> => {
   };
 
   try {
-    const { data } = await axios(config);
+    const resp = await axios(config);
+    const data = load(resp.data);
 
-    const $ = cheerio.load(data);
-    const state = $("#my-app-state").html();
-    if (state) {
-      const fbData = JSON.parse(state.replace(/&q;/g, '"'));
-      const key = Object.keys(fbData).find((k) =>
-        k.startsWith("_getDataFromFirebase")
-      );
-
-      return key ? fbData[key] : [];
-    }
-
-    return [];
+    return data || [];
   } catch (e) {
     showFailureToast();
 

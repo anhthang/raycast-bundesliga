@@ -60,6 +60,20 @@ export default function Table() {
           };
         }
 
+        const props: Partial<List.Item.Props> = showStats
+          ? {
+              accessories: [{ text: entry.points.toString() }, { icon }],
+              detail: <List.Item.Detail markdown={json2md(clubStats(entry))} />,
+            }
+          : {
+              accessories: [
+                {
+                  text: `Played: ${entry.gamesPlayed} Points: ${entry.points}`,
+                },
+                { icon },
+              ],
+            };
+
         return (
           <List.Item
             key={entry.rank}
@@ -68,8 +82,7 @@ export default function Table() {
               source: entry.club.logoUrl,
               fallback: "default_clublogo.svg",
             }}
-            accessories={[{ text: entry.points.toString() }, { icon }]}
-            detail={<List.Item.Detail markdown={json2md(clubStats(entry))} />}
+            {...props}
             actions={
               <ActionPanel>
                 <Action
