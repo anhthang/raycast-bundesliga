@@ -67,9 +67,8 @@ export default function Table() {
             }
           : {
               accessories: [
-                {
-                  text: `Played: ${entry.gamesPlayed} Points: ${entry.points}`,
-                },
+                { text: `Played: ${entry.gamesPlayed}` },
+                { text: `Points: ${entry.points}` },
                 { icon },
               ],
             };
