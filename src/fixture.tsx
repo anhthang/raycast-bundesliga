@@ -1,5 +1,6 @@
 import { Action, ActionPanel, List } from "@raycast/api";
 import { useState } from "react";
+import Matchday from "./components/matchday";
 import { useFixtures } from "./hooks";
 
 export default function Fixture() {
@@ -45,8 +46,9 @@ export default function Fixture() {
               ]}
               actions={
                 <ActionPanel>
-                  <Action.OpenInBrowser
-                    url={`https://www.bundesliga.com/en/${competition}/matchday/2021-2022/${fixture.matchday}/${fixture.slugs.slugLong}`}
+                  <Action.Push
+                    title="Match Details"
+                    target={<Matchday {...fixture} />}
                   />
                 </ActionPanel>
               }
