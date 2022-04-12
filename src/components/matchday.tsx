@@ -6,7 +6,7 @@ import { LiveBlogEntryItem, Matchday } from "../types/firebase";
 function convert(entry: LiveBlogEntryItem) {
   const time = entry.playtime.injuryTime
     ? `${entry.playtime.minute}'+${entry.playtime.injuryTime}`
-    : entry.playtime.minute;
+    : `${entry.playtime.minute}'`;
 
   switch (entry.entryType) {
     case "sub":
@@ -22,12 +22,6 @@ function convert(entry: LiveBlogEntryItem) {
     case "goal":
       return [
         { h2: `${time} - Goal` },
-        {
-          img: {
-            source: entry.detail.scorer.imageUrl,
-            title: entry.detail.scorer.name,
-          },
-        },
         {
           p: [
             `**${entry.detail.scorer.name}**`,
@@ -50,8 +44,6 @@ function convert(entry: LiveBlogEntryItem) {
         { h2: `${time} - Red Card` },
         { p: `🟥 ${entry.detail.person.name}` },
       ];
-    // case "video":
-    // case "embed":
     case "freetext":
       return [
         { h2: `${time} - ${entry.detail.headline}` },
@@ -59,8 +51,12 @@ function convert(entry: LiveBlogEntryItem) {
       ];
     case "image":
       return [
-        { h2: `${time} - ${entry.detail.headline}` },
-        { p: entry.detail.text },
+        {
+          h2: entry.detail.headline
+            ? `${time} - ${entry.detail.headline}`
+            : time,
+        },
+        { p: entry.detail.text || "" },
         {
           img: {
             source: entry.detail.url,
@@ -68,11 +64,60 @@ function convert(entry: LiveBlogEntryItem) {
           },
         },
       ];
-    // case "stats":
-    //   return [
-    //     { h2: `${time} - ${entry.detail.headline}` },
-    //     { p: entry.detail.text }
-    //   ]
+    case "stats":
+      switch (entry.detail.type) {
+        case "playerRanking":
+          return [
+            {
+              h2: `${time} - Speed check: The fastest player in the game after ${entry.playtime.minute} minutes`,
+            },
+            {
+              ul: entry.detail.ranking.map(
+                (p) => `${p.person.name}: ${p.value}${p.unit}`
+              ),
+            },
+          ];
+        // case "player":
+        //   return [
+        //     {
+        //       h2: entry.detail.headline
+        //         ? `${time} - ${entry.detail.headline}`
+        //         : time,
+        //     },
+        //     { p: entry.detail.text || "" },
+        //     { h3: entry.detail.title },
+        //     {
+        //       ul: [
+        //         `**Home:** ${entry.detail.home.person.name}`,
+        //         `**Away:** ${entry.detail.away.person.name}`,
+        //       ],
+        //     },
+        //   ];
+        // case "clubProgressRanking":
+        //   return [
+        //     { h2: `${time} - ${entry.detail.headline}` },
+        //     { p: entry.detail.text },
+        //   ];
+        // case "playerProgressRanking":
+        //   return [
+        //     {
+        //       h2: entry.detail.headline
+        //         ? `${time} - ${entry.detail.headline}`
+        //         : time,
+        //     },
+        //     { p: entry.detail.text || "" },
+        //     ...Object.entries(groupBy(entry.detail.ranking, "side")).map(
+        //       ([side, players]) => {
+        //         return [
+        //           { h3: side },
+        //           { p: players.map((p) => `${p.person.name}: ${p.value}`) },
+        //         ];
+        //       }
+        //     ),
+        //   ];
+        default:
+          return [];
+      }
     case "videoAssistant":
       return [
         { h2: time },
@@ -91,12 +136,17 @@ function convert(entry: LiveBlogEntryItem) {
         },
       ];
     case "end_firstHalf":
+      return [{ h1: "Half-time" }];
     case "end_secondHalf":
-    case "finalWhistle":
+      return [{ h1: "Full-time" }];
     case "start_firstHalf":
     case "start_secondHalf":
+      return [{ h1: "Kick-off!" }];
+    case "finalWhistle":
+    case "video":
+    case "embed":
     default:
-      return entry.entryType;
+      return [];
   }
 }
 

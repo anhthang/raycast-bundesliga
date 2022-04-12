@@ -167,7 +167,7 @@ export interface LiveBlogEntryItemDetail {
   copyright: string;
   url: string;
   away: PurpleAway | FluffyAway | TentacledAway;
-  home: PurpleAway;
+  home: PurpleAway | FluffyAway | TentacledAway;
   matchFact: boolean;
   title: string;
   type: string;
