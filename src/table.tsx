@@ -43,7 +43,7 @@ export default function Table() {
 
         return (
           <List.Item
-            key={entry.rank}
+            key={entry.club.id}
             icon={entry.club.logoUrl}
             title={entry.rank.toString()}
             subtitle={entry.club.nameFull}
