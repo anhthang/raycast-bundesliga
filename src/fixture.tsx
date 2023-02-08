@@ -24,7 +24,7 @@ export default function Fixture() {
     >
       <List.Section title={fixtures && fixtures[0]?.matchdayLabel}>
         {fixtures?.map((fixture) => {
-          const { teams, score } = fixture;
+          const { teams, score, matchStatus } = fixture;
 
           return (
             <List.Item
@@ -47,11 +47,19 @@ export default function Fixture() {
               ]}
               actions={
                 <ActionPanel>
-                  <Action.Push
-                    title="Match Details"
-                    icon={Icon.Sidebar}
-                    target={<Matchday {...fixture} />}
-                  />
+                  {matchStatus === "PRE_MATCH" ? (
+                    <Action.OpenInBrowser
+                      title="Buy Ticket"
+                      icon={Icon.Store}
+                      url={teams.home.boxOfficeUrl}
+                    />
+                  ) : (
+                    <Action.Push
+                      title="Match Details"
+                      icon={Icon.Sidebar}
+                      target={<Matchday {...fixture} />}
+                    />
+                  )}
                 </ActionPanel>
               }
             />

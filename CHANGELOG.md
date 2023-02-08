@@ -1,5 +1,10 @@
 # Bundesliga Changelog
 
+## [Fixes] - 2023-01-31
+
+- Fixing state element id
+- Add more information in Standings
+
 ## [Improvements] - 2022-06-14
 
 - Using new Grid layout for some commands
