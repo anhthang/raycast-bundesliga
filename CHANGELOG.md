@@ -1,5 +1,11 @@
 # Bundesliga Changelog
 
+## [Improvements] - 2023-02-09
+
+- Add fixture planned kickoff
+- Buy Ticket action for pre-match
+- Update extension icon
+
 ## [Fixes] - 2023-01-31
 
 - Fixing state element id
