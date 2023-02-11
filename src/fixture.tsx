@@ -1,4 +1,4 @@
-import { Action, ActionPanel, List, Icon } from "@raycast/api";
+import { Action, ActionPanel, List, Icon, Color, Image } from "@raycast/api";
 import groupBy from "lodash.groupby";
 import { useState } from "react";
 import Matchday from "./components/matchday";
@@ -39,27 +39,47 @@ export default function Fixture() {
             {matches.map((match) => {
               const { teams, score, matchStatus } = match;
 
+              let icon: Image.ImageLike;
+              if (match.matchStatus.toLowerCase().includes("half")) {
+                icon = { source: Icon.Livestream, tintColor: Color.Red };
+              } else if (match.matchStatus.toLowerCase().includes("final")) {
+                icon = { source: Icon.CheckCircle, tintColor: Color.Green };
+              } else {
+                icon = Icon.Clock;
+              }
+
+              const accessories: List.Item.Accessory[] = [
+                { text: match.stadiumName },
+                {
+                  icon: {
+                    source: {
+                      dark: match.stadiumIconUrlWhite,
+                      light: match.stadiumIconUrlBlack,
+                    },
+                  },
+                },
+              ];
+
+              if (match.matchStatus.toLowerCase().includes("half")) {
+                accessories.unshift({
+                  tag: {
+                    value: `${match.minuteOfPlay.minute}'00`,
+                    color: Color.Red,
+                  },
+                });
+              }
+
               return (
                 <List.Item
                   key={match.seasonOrder}
-                  icon={Icon.Clock}
+                  icon={icon}
                   title={convertToLocalTime(match.plannedKickOff, "HH:mm")}
                   subtitle={
                     score
                       ? `${teams.home.nameFull} ${score.home.live} - ${score.away.live} ${teams.away.nameFull}`
                       : `${teams.home.nameFull} - ${teams.away.nameFull}`
                   }
-                  accessories={[
-                    { text: match.stadiumName },
-                    {
-                      icon: {
-                        source: {
-                          dark: match.stadiumIconUrlWhite,
-                          light: match.stadiumIconUrlBlack,
-                        },
-                      },
-                    },
-                  ]}
+                  accessories={accessories}
                   actions={
                     <ActionPanel>
                       {matchStatus === "PRE_MATCH" ? (

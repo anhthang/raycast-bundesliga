@@ -1,8 +1,10 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { showToast, Toast } from "@raycast/api";
+import { getPreferenceValues, showToast, Toast } from "@raycast/api";
 import * as cheerio from "cheerio";
 import { ClubPerson, CompetitionClub, Player, Players } from "../types";
 import { Entry, LiveBlogEntries, Matchday } from "../types/firebase";
+
+const { apikey } = getPreferenceValues();
 
 function showFailureToast() {
   showToast(
@@ -13,7 +15,7 @@ function showFailureToast() {
 }
 
 const headers = {
-  "x-api-key": "60ETUJ4j5YagIHdu-PROD",
+  "x-api-key": apikey,
 };
 
 function load(html: string) {

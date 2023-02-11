@@ -1,5 +1,9 @@
 # Bundesliga Changelog
 
+## [Improvements] - 2023
+- Live fixtures status
+- Move x-api-key to preference
+
 ## [Improvements] - 2023-02-09
 
 - Add fixture planned kickoff

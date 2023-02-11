@@ -32,6 +32,16 @@
       "mode": "view"
     }
   ],
+  "preferences": [
+    {
+      "name": "apikey",
+      "title": "x-api-key",
+      "description": "API key that used for collect data from Bundesliga web services",
+      "required": false,
+      "type": "textfield",
+      "default": "60ETUJ4j5YagIHdu-PROD"
+    }
+  ],
   "dependencies": {
     "@raycast/api": "^1.46.1",
     "axios": "^1.3.0",
