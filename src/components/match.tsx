@@ -112,7 +112,7 @@ function convert(entry: LiveBlogEntryItem) {
   }
 }
 
-export default function Matchday(props: Matchday) {
+export default function Match(props: Matchday) {
   const entries = useMatchday(props.liveBlogUrl);
 
   const dataObject: json2md.DataObject = entries

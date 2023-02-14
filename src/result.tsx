@@ -1,7 +1,7 @@
 import { Action, ActionPanel, List, Icon, Color, Image } from "@raycast/api";
 import groupBy from "lodash.groupby";
 import { useState } from "react";
-import Matchday from "./components/matchday";
+import Match from "./components/match";
 import { useFixtures } from "./hooks";
 import { convertToLocalTime } from "./utils";
 
@@ -90,9 +90,9 @@ export default function Fixture() {
                         />
                       ) : (
                         <Action.Push
-                          title="Match Details"
+                          title="Match Stats"
                           icon={Icon.Sidebar}
-                          target={<Matchday {...match} />}
+                          target={<Match {...match} />}
                         />
                       )}
                     </ActionPanel>
