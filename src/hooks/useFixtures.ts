@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
-import { getResults } from "../api";
+import { getFixtures } from "../api";
 import { Matchday } from "../types/firebase";
 
-export const useFixtures = (competition: string) => {
+export const useFixtures = (
+  competition: string,
+  season?: string,
+  matchday?: number
+) => {
   const [fixtures, setFixtures] = useState<Matchday[]>();
 
   useEffect(() => {
     setFixtures(undefined);
 
-    getResults(competition).then((data) => {
+    getFixtures(competition, season, matchday).then((data) => {
       setFixtures(data);
     });
-  }, [competition]);
+  }, [competition, matchday]);
 
   return fixtures;
 };

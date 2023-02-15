@@ -7,7 +7,9 @@ import { convertToLocalTime } from "./utils";
 
 export default function Fixture() {
   const [competition, setCompetition] = useState<string>("bundesliga");
-  const fixtures = useFixtures(competition);
+  const [matchday, setMatchday] = useState<number>();
+
+  const fixtures = useFixtures(competition, "2022-2023", matchday);
 
   const categories = fixtures
     ? groupBy(fixtures, (f) =>
@@ -19,6 +21,11 @@ export default function Fixture() {
     <List
       throttle
       isLoading={!fixtures}
+      navigationTitle={
+        !fixtures
+          ? "Fixtures & Results"
+          : `${fixtures[0].matchdayLabel} | Fixtures & Results`
+      }
       searchBarAccessory={
         <List.Dropdown
           tooltip="Filter by Competition"
@@ -32,10 +39,7 @@ export default function Fixture() {
     >
       {Object.entries(categories).map(([day, matches], key) => {
         return (
-          <List.Section
-            title={`${matches[0].matchdayLabel} - ${day}`}
-            key={key}
-          >
+          <List.Section title={day} key={key}>
             {matches.map((match) => {
               const { teams, score, matchStatus } = match;
 
@@ -95,6 +99,26 @@ export default function Fixture() {
                           target={<Match {...match} />}
                         />
                       )}
+                      <ActionPanel.Section title="Matchday">
+                        {match.matchday > 1 && (
+                          <Action
+                            title={`Matchday ${match.matchday - 1}`}
+                            icon={Icon.ArrowLeftCircle}
+                            onAction={() => {
+                              setMatchday(match.matchday - 1);
+                            }}
+                          />
+                        )}
+                        {match.matchday < 36 && (
+                          <Action
+                            title={`Matchday ${match.matchday + 1}`}
+                            icon={Icon.ArrowRightCircle}
+                            onAction={() => {
+                              setMatchday(match.matchday + 1);
+                            }}
+                          />
+                        )}
+                      </ActionPanel.Section>
                     </ActionPanel>
                   }
                 />

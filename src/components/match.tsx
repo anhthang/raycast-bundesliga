@@ -1,6 +1,6 @@
 import { Action, ActionPanel, Detail } from "@raycast/api";
 import json2md from "json2md";
-import { useMatchday } from "../hooks";
+import { useMatch } from "../hooks";
 import { LiveBlogEntryItem, Matchday } from "../types/firebase";
 
 function convert(entry: LiveBlogEntryItem) {
@@ -113,7 +113,7 @@ function convert(entry: LiveBlogEntryItem) {
 }
 
 export default function Match(props: Matchday) {
-  const entries = useMatchday(props.liveBlogUrl);
+  const entries = useMatch(props.liveBlogUrl);
 
   const dataObject: json2md.DataObject = entries
     ? [

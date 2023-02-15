@@ -114,10 +114,19 @@ export const getTable = async (competition: string): Promise<Entry[]> => {
   }
 };
 
-export const getResults = async (competition: string): Promise<Matchday[]> => {
+export const getFixtures = async (
+  competition: string,
+  season?: string,
+  matchday?: number
+): Promise<Matchday[]> => {
+  const url =
+    season && matchday
+      ? `https://www.bundesliga.com/en/${competition}/matchday/${season}/${matchday}`
+      : `https://www.bundesliga.com/en/${competition}/matchday`;
+
   const config: AxiosRequestConfig = {
     method: "get",
-    url: `https://www.bundesliga.com/en/${competition}/matchday`,
+    url,
   };
 
   try {
@@ -132,7 +141,7 @@ export const getResults = async (competition: string): Promise<Matchday[]> => {
   }
 };
 
-export const getMatchday = async (
+export const getMatch = async (
   url: string
 ): Promise<LiveBlogEntries | undefined> => {
   const config: AxiosRequestConfig = {

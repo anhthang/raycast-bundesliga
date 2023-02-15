@@ -1,7 +1,7 @@
 # Bundesliga Changelog
 
 ## [Improvements] - 2023
-- Live fixtures status
+- Refine Fixtures & Results
 - Move x-api-key to preference
 
 ## [Improvements] - 2023-02-09

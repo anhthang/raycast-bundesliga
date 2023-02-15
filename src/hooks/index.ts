@@ -1,6 +1,6 @@
 import { useClubs, usePerson, usePersons } from "./useClubs";
 import { useTable } from "./useTable";
 import { useFixtures } from "./useFixtures";
-import { useMatchday } from "./useMatchday";
+import { useMatch } from "./useMatch";
 
-export { useClubs, useFixtures, useMatchday, usePerson, usePersons, useTable };
+export { useClubs, useFixtures, useMatch, usePerson, usePersons, useTable };
