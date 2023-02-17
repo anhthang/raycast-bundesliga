@@ -69,7 +69,7 @@ export interface Matchday {
   matchdayLabel: string;
   matchdayRange: MatchdayRange;
   minuteOfPlay: MinuteOfPlay;
-  plannedKickOff: string;
+  plannedKickOff?: string;
   referee: Referee;
   score: Score;
   seasonOrder: number;

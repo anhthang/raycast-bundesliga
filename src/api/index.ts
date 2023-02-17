@@ -1,7 +1,14 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { getPreferenceValues, showToast, Toast } from "@raycast/api";
 import * as cheerio from "cheerio";
-import { ClubPerson, CompetitionClub, Player, Players } from "../types";
+import {
+  Broadcast,
+  Broadcasts,
+  ClubPerson,
+  CompetitionClub,
+  Player,
+  Players,
+} from "../types";
 import { Entry, LiveBlogEntries, Matchday } from "../types/firebase";
 
 const { apikey } = getPreferenceValues();
@@ -31,11 +38,11 @@ function load(html: string) {
     }
   }
 
-  const key = Object.keys(data).find((k) =>
+  const keys = Object.keys(data).filter((k) =>
     k.startsWith("_getDataFromFirebase")
   );
 
-  return key ? data[key] : {};
+  return keys.length ? data[keys[keys.length - 1]] : {};
 }
 
 export const getClubs = async (): Promise<CompetitionClub> => {
@@ -158,5 +165,29 @@ export const getMatch = async (
     showFailureToast();
 
     return undefined;
+  }
+};
+
+export const getBroadcasters = async (
+  competition: string,
+  season: string,
+  matchday: string
+): Promise<Broadcast[]> => {
+  const config: AxiosRequestConfig = {
+    method: "get",
+    url: `https://wapp.bapi.bundesliga.com/epg/${competition}/${season}/${matchday}`,
+    headers,
+  };
+
+  try {
+    const { data }: AxiosResponse<Broadcasts> = await axios(config);
+
+    return data.broadcasts;
+  } catch (e) {
+    console.log("e", e);
+
+    showFailureToast();
+
+    return [];
   }
 };

@@ -3,19 +3,43 @@ import groupBy from "lodash.groupby";
 import { useState } from "react";
 import Match from "./components/match";
 import { useFixtures } from "./hooks";
+import { Broadcast } from "./types";
 import { convertToLocalTime } from "./utils";
 
 export default function Fixture() {
   const [competition, setCompetition] = useState<string>("bundesliga");
   const [matchday, setMatchday] = useState<number>();
 
-  const fixtures = useFixtures(competition, "2022-2023", matchday);
+  const { fixtures, broadcasts } = useFixtures(
+    competition,
+    "2022-2023",
+    matchday
+  );
 
   const categories = fixtures
-    ? groupBy(fixtures, (f) =>
-        convertToLocalTime(f.plannedKickOff, "EEEE dd-MMM-yyyy")
-      )
+    ? groupBy(fixtures, (f) => {
+        if (f.plannedKickOff) {
+          return convertToLocalTime(f.plannedKickOff, "EEEE dd-MMM-yyyy");
+        } else {
+          const start = convertToLocalTime(
+            f.matchdayRange.start,
+            "dd-MMM-yyyy"
+          );
+          const end = convertToLocalTime(f.matchdayRange.end, "dd-MMM-yyyy");
+
+          return `${start} - ${end}`;
+        }
+      })
     : {};
+
+  const broadcastMap = broadcasts?.reduce(
+    (out: { [matchId: string]: Broadcast }, cur) => {
+      out[cur.dflDatalibraryMatchId] = cur;
+
+      return out;
+    },
+    {}
+  );
 
   return (
     <List
@@ -53,8 +77,8 @@ export default function Fixture() {
               }
 
               const accessories: List.Item.Accessory[] = [
-                { text: match.stadiumName },
                 {
+                  text: match.stadiumName,
                   icon: {
                     source: {
                       dark: match.stadiumIconUrlWhite,
@@ -73,11 +97,28 @@ export default function Fixture() {
                 });
               }
 
+              if (broadcastMap && broadcastMap[match.dflDatalibraryMatchId]) {
+                const broadcast = broadcastMap[match.dflDatalibraryMatchId];
+                accessories.push({
+                  icon: {
+                    source: {
+                      light: broadcast.logo,
+                      dark: broadcast.logoDark,
+                    },
+                  },
+                  tooltip: broadcast.broadcasterName,
+                });
+              }
+
               return (
                 <List.Item
                   key={match.seasonOrder}
                   icon={icon}
-                  title={convertToLocalTime(match.plannedKickOff, "HH:mm")}
+                  title={
+                    match.plannedKickOff
+                      ? convertToLocalTime(match.plannedKickOff, "HH:mm")
+                      : "TBC"
+                  }
                   subtitle={
                     score
                       ? `${teams.home.nameFull} ${score.home.live} - ${score.away.live} ${teams.away.nameFull}`
