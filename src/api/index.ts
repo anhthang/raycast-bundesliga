@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { getPreferenceValues, showToast, Toast } from "@raycast/api";
+import { Cache, getPreferenceValues, showToast, Toast } from "@raycast/api";
 import * as cheerio from "cheerio";
 import {
   Broadcast,
@@ -9,9 +9,15 @@ import {
   Player,
   Players,
 } from "../types";
-import { Entry, LiveBlogEntries, Matchday } from "../types/firebase";
+import {
+  Entry,
+  LiveBlogEntries,
+  Matchday,
+  SeasonConfig,
+} from "../types/firebase";
 
 const { apikey } = getPreferenceValues();
+const cache = new Cache();
 
 function showFailureToast() {
   showToast(
@@ -45,13 +51,42 @@ function load(html: string) {
   return keys.length ? data[keys[keys.length - 1]] : {};
 }
 
+const cfgKey = "bundesliga_config";
+const getSeason = async (): Promise<SeasonConfig | undefined> => {
+  try {
+    const has = cache.has(cfgKey);
+
+    let data;
+    if (has) {
+      data = cache.get(cfgKey);
+    } else {
+      const resp = await axios({
+        method: "get",
+        url: "https://wapp.bapi.bundesliga.com/config/configNode.json",
+      });
+
+      cache.set("bundesliga_config", resp.data);
+
+      data = resp.data;
+    }
+
+    const cfg: { [com: string]: SeasonConfig } = JSON.parse(data);
+
+    return Object.values(cfg)[0];
+  } catch (e) {
+    return undefined;
+  }
+};
+
 export const getClubs = async (): Promise<CompetitionClub> => {
+  const season = await getSeason();
+
   const config: AxiosRequestConfig = {
     method: "get",
     url: "https://wapp.bapi.bundesliga.com/club",
     params: {
       // sort: "editorialorder",
-      seasonId: "DFL-SEA-0001K5",
+      seasonId: season?.season.dflDatalibrarySeasonId,
     },
     headers,
   };
@@ -123,13 +158,13 @@ export const getTable = async (competition: string): Promise<Entry[]> => {
 
 export const getFixtures = async (
   competition: string,
-  season?: string,
   matchday?: number
 ): Promise<Matchday[]> => {
-  const url =
-    season && matchday
-      ? `https://www.bundesliga.com/en/${competition}/matchday/${season}/${matchday}`
-      : `https://www.bundesliga.com/en/${competition}/matchday`;
+  const season = await getSeason();
+
+  const url = matchday
+    ? `https://www.bundesliga.com/en/${competition}/matchday/${season?.season.name}/${matchday}`
+    : `https://www.bundesliga.com/en/${competition}/matchday`;
 
   const config: AxiosRequestConfig = {
     method: "get",
@@ -184,8 +219,6 @@ export const getBroadcasters = async (
 
     return data.broadcasts;
   } catch (e) {
-    console.log("e", e);
-
     showFailureToast();
 
     return [];

@@ -10,11 +10,7 @@ export default function Fixture() {
   const [competition, setCompetition] = useState<string>("bundesliga");
   const [matchday, setMatchday] = useState<number>();
 
-  const { fixtures, broadcasts } = useFixtures(
-    competition,
-    "2022-2023",
-    matchday
-  );
+  const { fixtures, broadcasts } = useFixtures(competition, matchday);
 
   const categories = fixtures
     ? groupBy(fixtures, (f) => {

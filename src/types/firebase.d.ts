@@ -233,3 +233,16 @@ export interface TentacledAway {
   secondaryLabel: string;
   secondaryValue: number;
 }
+
+export interface SeasonConfig {
+  lastUpdateDateTime: Date;
+  matchday: Matchday;
+  pre?: string[];
+  seasonState: string;
+  season: {
+    dflDatalibrarySeasonId: string;
+    seasonId: string;
+    name: string;
+    firstMatchdayStart: string;
+  };
+}
