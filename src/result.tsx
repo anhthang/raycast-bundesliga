@@ -68,12 +68,14 @@ export default function Fixture() {
               const { teams, score, matchStatus } = match;
 
               let icon: Image.ImageLike;
-              if (match.matchStatus.toLowerCase().includes("half")) {
+              if (!match.plannedKickOff) {
+                icon = Icon.Clock;
+              } else if (match.matchStatus.toLowerCase().includes("half")) {
                 icon = { source: Icon.Livestream, tintColor: Color.Red };
               } else if (match.matchStatus.toLowerCase().includes("final")) {
                 icon = { source: Icon.CheckCircle, tintColor: Color.Green };
               } else {
-                icon = Icon.Clock;
+                icon = Icon.Calendar;
               }
 
               const accessories: List.Item.Accessory[] = [
