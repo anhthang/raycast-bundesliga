@@ -65,15 +65,20 @@ const getSeason = async (): Promise<SeasonConfig | undefined> => {
         url: "https://wapp.bapi.bundesliga.com/config/configNode.json",
       });
 
-      cache.set("bundesliga_config", resp.data);
-
       data = resp.data;
+      cache.set(
+        "bundesliga_config",
+        typeof data === "string" ? data : JSON.stringify(resp.data)
+      );
     }
 
-    const cfg: { [com: string]: SeasonConfig } = JSON.parse(data);
+    const cfg: { [com: string]: SeasonConfig } =
+      typeof data === "string" ? JSON.parse(data) : data;
 
     return Object.values(cfg)[0];
   } catch (e) {
+    showFailureToast();
+
     return undefined;
   }
 };

@@ -31,12 +31,12 @@ export default function Table() {
 
         if (entry.tendency === "UP") {
           icon = {
-            source: Icon.ChevronUp,
+            source: Icon.ChevronUpSmall,
             tintColor: Color.Green,
           };
         } else if (entry.tendency === "DOWN") {
           icon = {
-            source: Icon.ChevronDown,
+            source: Icon.ChevronDownSmall,
             tintColor: Color.Red,
           };
         }
@@ -47,9 +47,9 @@ export default function Table() {
               color: Color.PrimaryText,
               value: entry.points.toString(),
             },
+            icon,
             tooltip: "Points",
           },
-          { icon },
         ];
 
         if (!showStats) {

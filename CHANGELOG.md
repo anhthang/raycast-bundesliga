@@ -1,6 +1,6 @@
 # Bundesliga Changelog
 
-## [Improvements] - 2023
+## [Improvements] - 2023-02-20
 - Refine Fixtures & Results
 - Move x-api-key to preference
 
