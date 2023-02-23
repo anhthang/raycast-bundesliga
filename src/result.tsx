@@ -123,6 +123,12 @@ export default function Fixture() {
                       : `${teams.home.nameFull} - ${teams.away.nameFull}`
                   }
                   accessories={accessories}
+                  keywords={[
+                    teams.home.nameFull,
+                    teams.home.nameShort,
+                    teams.away.nameFull,
+                    teams.away.nameShort,
+                  ]}
                   actions={
                     <ActionPanel>
                       {matchStatus === "PRE_MATCH" ? (
