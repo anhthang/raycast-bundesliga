@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { Cache, getPreferenceValues, showToast, Toast } from "@raycast/api";
+import { Cache, getPreferenceValues } from "@raycast/api";
+import { showFailureToast } from "@raycast/utils";
 import * as cheerio from "cheerio";
 import {
   Broadcast,
@@ -19,34 +20,24 @@ import {
 const { apikey } = getPreferenceValues();
 const cache = new Cache();
 
-function showFailureToast() {
-  showToast(
-    Toast.Style.Failure,
-    "Something went wrong",
-    "Please try again later"
-  );
-}
-
 const headers = {
   "x-api-key": apikey,
 };
 
-function load(html: string) {
+function load(html: string, keyContains: string) {
   const $ = cheerio.load(html);
   const state = $("#serverApp-state").html();
 
-  let data: any = {};
+  let data;
   if (state) {
     try {
       data = JSON.parse(state.replace(/&q;/g, '"').replace(/&s;/g, "'"));
     } catch (error) {
-      // nothing to do
+      data = {};
     }
   }
 
-  const keys = Object.keys(data).filter((k) =>
-    k.startsWith("_getDataFromFirebase")
-  );
+  const keys = Object.keys(data).filter((k) => k.includes(keyContains));
 
   return keys.length ? data[keys[keys.length - 1]] : {};
 }
@@ -68,7 +59,7 @@ const getSeason = async (): Promise<SeasonConfig | undefined> => {
       data = resp.data;
       cache.set(
         "bundesliga_config",
-        typeof data === "string" ? data : JSON.stringify(resp.data)
+        typeof data === "string" ? data : JSON.stringify(resp.data),
       );
     }
 
@@ -77,7 +68,7 @@ const getSeason = async (): Promise<SeasonConfig | undefined> => {
 
     return Object.values(cfg)[0];
   } catch (e) {
-    showFailureToast();
+    showFailureToast(e);
 
     return undefined;
   }
@@ -101,7 +92,7 @@ export const getClubs = async (): Promise<CompetitionClub> => {
 
     return data;
   } catch (e) {
-    showFailureToast();
+    showFailureToast(e);
 
     return {};
   }
@@ -119,7 +110,7 @@ export const getPersons = async (club: string): Promise<Players> => {
 
     return data.players;
   } catch (e) {
-    showFailureToast();
+    showFailureToast(e);
 
     return {};
   }
@@ -137,7 +128,7 @@ export const getPerson = async (slug: string): Promise<Player | undefined> => {
 
     return data;
   } catch (e) {
-    showFailureToast();
+    showFailureToast(e);
 
     return undefined;
   }
@@ -151,11 +142,11 @@ export const getTable = async (competition: string): Promise<Entry[]> => {
 
   try {
     const resp = await axios(config);
-    const data = load(resp.data);
+    const data = load(resp.data, "liveTable");
 
     return data.entries || [];
   } catch (e) {
-    showFailureToast();
+    showFailureToast(e);
 
     return [];
   }
@@ -163,7 +154,7 @@ export const getTable = async (competition: string): Promise<Entry[]> => {
 
 export const getFixtures = async (
   competition: string,
-  matchday?: number
+  matchday?: number,
 ): Promise<Matchday[]> => {
   const season = await getSeason();
 
@@ -178,18 +169,18 @@ export const getFixtures = async (
 
   try {
     const resp = await axios(config);
-    const data = load(resp.data);
+    const data = load(resp.data, "matchesmatchday");
 
     return data || [];
   } catch (e) {
-    showFailureToast();
+    showFailureToast(e);
 
     return [];
   }
 };
 
 export const getMatch = async (
-  url: string
+  url: string,
 ): Promise<LiveBlogEntries | undefined> => {
   const config: AxiosRequestConfig = {
     method: "get",
@@ -198,11 +189,11 @@ export const getMatch = async (
 
   try {
     const resp = await axios(config);
-    const data: Matchday = load(resp.data);
+    const data: Matchday = load(resp.data, "matchdays");
 
     return data.liveBlogEntries;
   } catch (e) {
-    showFailureToast();
+    showFailureToast(e);
 
     return undefined;
   }
@@ -211,7 +202,7 @@ export const getMatch = async (
 export const getBroadcasters = async (
   competition: string,
   season: string,
-  matchday: string
+  matchday: string,
 ): Promise<Broadcast[]> => {
   const config: AxiosRequestConfig = {
     method: "get",
@@ -224,7 +215,7 @@ export const getBroadcasters = async (
 
     return data.broadcasts;
   } catch (e) {
-    showFailureToast();
+    showFailureToast(e);
 
     return [];
   }

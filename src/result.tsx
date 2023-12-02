@@ -19,7 +19,7 @@ export default function Fixture() {
         } else {
           const start = convertToLocalTime(
             f.matchdayRange.start,
-            "dd-MMM-yyyy"
+            "dd-MMM-yyyy",
           );
           const end = convertToLocalTime(f.matchdayRange.end, "dd-MMM-yyyy");
 
@@ -34,7 +34,7 @@ export default function Fixture() {
 
       return out;
     },
-    {}
+    {},
   );
 
   return (
@@ -74,17 +74,7 @@ export default function Fixture() {
                 icon = Icon.Calendar;
               }
 
-              const accessories: List.Item.Accessory[] = [
-                {
-                  text: match.stadiumName,
-                  icon: {
-                    source: {
-                      dark: match.stadiumIconUrlWhite,
-                      light: match.stadiumIconUrlBlack,
-                    },
-                  },
-                },
-              ];
+              const accessories: List.Item.Accessory[] = [];
 
               if (match.matchStatus.toLowerCase().includes("half")) {
                 accessories.unshift({

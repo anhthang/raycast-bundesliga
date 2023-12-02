@@ -73,7 +73,7 @@ function convert(entry: LiveBlogEntryItem) {
             },
             {
               ul: entry.detail.ranking.map(
-                (p) => `${p.person.name}: ${p.value}${p.unit}`
+                (p) => `${p.person.name}: ${p.value}${p.unit}`,
               ),
             },
           ];
@@ -113,7 +113,9 @@ function convert(entry: LiveBlogEntryItem) {
 }
 
 export default function Match(props: Matchday) {
-  const entries = useMatch(props.liveBlogUrl);
+  const liveBlogUrl = `https://webview.bundesliga.com/en/liveticker/${props.dflDatalibraryCompetitionId}/${props.dflDatalibrarySeasonId}/${props.dflDatalibraryMatchdayId}/${props.dflDatalibraryMatchId}`;
+
+  const entries = useMatch(liveBlogUrl);
 
   const dataObject: json2md.DataObject = entries
     ? [
@@ -131,7 +133,7 @@ export default function Match(props: Matchday) {
       markdown={json2md(dataObject)}
       actions={
         <ActionPanel>
-          <Action.OpenInBrowser url={props.liveBlogUrl} />
+          <Action.OpenInBrowser url={liveBlogUrl} />
         </ActionPanel>
       }
     />

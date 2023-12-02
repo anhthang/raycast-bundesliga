@@ -21,7 +21,7 @@ export const useFixtures = (competition: string, matchday?: number) => {
       getBroadcasters(
         dflDatalibraryCompetitionId,
         dflDatalibrarySeasonId,
-        dflDatalibraryMatchdayId
+        dflDatalibraryMatchdayId,
       ).then(setBroadcasts);
     });
   }, [competition, matchday]);

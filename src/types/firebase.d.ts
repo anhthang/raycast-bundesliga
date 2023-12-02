@@ -53,6 +53,7 @@ export interface Qualification {
 }
 
 export interface Matchday {
+  dateQuality: string;
   dflDatalibraryCompetitionId: string;
   dflDatalibraryMatchId: string;
   dflDatalibraryMatchdayId: string;

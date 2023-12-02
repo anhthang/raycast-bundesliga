@@ -63,7 +63,7 @@ export default function Table() {
               icon: Icon.Goal,
               text: `${entry.goalsScored} - ${entry.goalsAgainst}`,
               tooltip: "Goals For - Goals Against",
-            }
+            },
           );
         }
 
