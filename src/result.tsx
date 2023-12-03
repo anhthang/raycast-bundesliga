@@ -44,7 +44,7 @@ export default function Fixture() {
       navigationTitle={
         !fixtures
           ? "Fixtures & Results"
-          : `${fixtures[0].matchdayLabel} | Fixtures & Results`
+          : `Matchday ${fixtures[0].matchday} | Fixtures & Results`
       }
       searchBarAccessory={
         <List.Dropdown

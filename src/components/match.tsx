@@ -128,7 +128,7 @@ export default function Match(props: Matchday) {
 
   return (
     <Detail
-      navigationTitle={`${props.teams.home.nameFull} - ${props.teams.away.nameFull} | ${props.matchdayLabel}`}
+      navigationTitle={`${props.teams.home.nameFull} - ${props.teams.away.nameFull} | Matchday ${props.matchday}`}
       isLoading={!entries}
       markdown={json2md(dataObject)}
       actions={
