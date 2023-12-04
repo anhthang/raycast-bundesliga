@@ -42,26 +42,26 @@ function load(html: string, keyContains: string) {
   return keys.length ? data[keys[keys.length - 1]] : {};
 }
 
-const cfgKey = "bundesliga_config";
+// const cfgKey = "bundesliga_config";
 const getSeason = async (): Promise<SeasonConfig | undefined> => {
   try {
-    const has = cache.has(cfgKey);
+    // const has = cache.has(cfgKey);
 
-    let data;
-    if (has) {
-      data = cache.get(cfgKey);
-    } else {
-      const resp = await axios({
-        method: "get",
-        url: "https://wapp.bapi.bundesliga.com/config/configNode.json",
-      });
+    // let data;
+    // if (has) {
+    //   data = cache.get(cfgKey);
+    // } else {
+    const resp = await axios({
+      method: "get",
+      url: "https://wapp.bapi.bundesliga.com/config/configNode.json",
+    });
 
-      data = resp.data;
-      cache.set(
-        "bundesliga_config",
-        typeof data === "string" ? data : JSON.stringify(resp.data),
-      );
-    }
+    const data = resp.data;
+    cache.set(
+      "bundesliga_config",
+      typeof data === "string" ? data : JSON.stringify(resp.data),
+    );
+    // }
 
     const cfg: { [com: string]: SeasonConfig } =
       typeof data === "string" ? JSON.parse(data) : data;

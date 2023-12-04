@@ -66,9 +66,9 @@ export default function Fixture() {
               let icon: Image.ImageLike;
               if (!match.plannedKickOff) {
                 icon = Icon.Clock;
-              } else if (match.matchStatus.toLowerCase().includes("half")) {
+              } else if (matchStatus.toLowerCase().includes("half")) {
                 icon = { source: Icon.Livestream, tintColor: Color.Red };
-              } else if (match.matchStatus.toLowerCase().includes("final")) {
+              } else if (matchStatus.toLowerCase().includes("final")) {
                 icon = { source: Icon.CheckCircle, tintColor: Color.Green };
               } else {
                 icon = Icon.Calendar;
@@ -76,7 +76,7 @@ export default function Fixture() {
 
               const accessories: List.Item.Accessory[] = [];
 
-              if (match.matchStatus.toLowerCase().includes("half")) {
+              if (matchStatus.toLowerCase().includes("half")) {
                 accessories.unshift({
                   tag: {
                     value: `${match.minuteOfPlay.minute}'00`,
@@ -121,19 +121,18 @@ export default function Fixture() {
                   ]}
                   actions={
                     <ActionPanel>
-                      {matchStatus === "PRE_MATCH" ? (
+                      {/* {matchStatus === "PRE_MATCH" && (
                         <Action.OpenInBrowser
                           title="Buy Ticket"
                           icon={Icon.Wallet}
                           url={teams.home.boxOfficeUrl}
                         />
-                      ) : (
-                        <Action.Push
-                          title="Match Stats"
-                          icon={Icon.Sidebar}
-                          target={<Match {...match} />}
-                        />
-                      )}
+                      )} */}
+                      <Action.Push
+                        title="Match Stats"
+                        icon={Icon.Sidebar}
+                        target={<Match {...match} />}
+                      />
                       <ActionPanel.Section title="Matchday">
                         {match.matchday > 1 && (
                           <Action
