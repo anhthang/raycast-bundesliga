@@ -52,8 +52,16 @@ export default function Fixture() {
           value={competition}
           onChange={setCompetition}
         >
-          <List.Dropdown.Item title="Bundesliga" value="bundesliga" />
-          <List.Dropdown.Item title="2. Bundesliga" value="2bundesliga" />
+          <List.Dropdown.Item
+            title="Bundesliga"
+            value="bundesliga"
+            icon="bundesliga.svg"
+          />
+          <List.Dropdown.Item
+            title="2. Bundesliga"
+            value="2bundesliga"
+            icon="2bundesliga.svg"
+          />
         </List.Dropdown>
       }
     >

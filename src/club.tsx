@@ -118,8 +118,16 @@ export default function Club() {
           value={competition}
           onChange={setCompetition}
         >
-          <Grid.Dropdown.Item title="Bundesliga" value="bundesliga" />
-          <Grid.Dropdown.Item title="2. Bundesliga" value="2bundesliga" />
+          <Grid.Dropdown.Item
+            title="Bundesliga"
+            value="bundesliga"
+            icon="bundesliga.svg"
+          />
+          <Grid.Dropdown.Item
+            title="2. Bundesliga"
+            value="2bundesliga"
+            icon="2bundesliga.svg"
+          />
         </Grid.Dropdown>
       }
     >
