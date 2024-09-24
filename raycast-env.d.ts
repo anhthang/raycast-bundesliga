@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
 type ExtensionPreferences = {
-  /** x-api-key - API key that used for collect data from Bundesliga web services */
+  /** API Key - API key to access Bundesliga data, can be obtained from the network tab of your web browser's developer tools while browsing the Bundesliga website. */
   "apikey": string
 }
 

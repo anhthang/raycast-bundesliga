@@ -2,7 +2,7 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "bundesliga",
   "title": "Bundesliga",
-  "description": "The latest news, info and stats for clubs can be found in Raycast.",
+  "description": "Stay up-to-date with the latest news, fixtures, results, and standings from the Bundesliga.",
   "icon": "icon.png",
   "author": "anhthang",
   "license": "MIT",
@@ -14,29 +14,29 @@
       "name": "table",
       "title": "Tables",
       "subtitle": "Bundesliga",
-      "description": "The Bundesliga table with current points, goals, home record, away record, form",
+      "description": "See the latest Bundesliga table, including points, goals, home/away records, and form.",
       "mode": "view"
     },
     {
       "name": "result",
       "title": "Fixtures & Results",
       "subtitle": "Bundesliga",
-      "description": "All dates, venues and results for the current matchday of the season",
+      "description": "Get a comprehensive list of all fixtures, results, and venues for the current Bundesliga matchday.",
       "mode": "view"
     },
     {
       "name": "club",
       "title": "Clubs",
       "subtitle": "Bundesliga",
-      "description": "The club overview of Bundesliga teams with complete information",
+      "description": "Discover in-depth information about each Bundesliga club, including their history, roster, and recent performance.",
       "mode": "view"
     }
   ],
   "preferences": [
     {
       "name": "apikey",
-      "title": "x-api-key",
-      "description": "API key that used for collect data from Bundesliga web services",
+      "title": "API Key",
+      "description": "API key to access Bundesliga data, can be obtained from the network tab of your web browser's developer tools while browsing the Bundesliga website.",
       "required": false,
       "type": "textfield",
       "default": "60ETUJ4j5YagIHdu-PROD"
