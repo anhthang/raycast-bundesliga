@@ -1,16 +1,18 @@
 import { Action, ActionPanel, Color, Icon, Image, List } from "@raycast/api";
+import { usePromise } from "@raycast/utils";
 import { useState } from "react";
-import { useTable } from "./hooks";
+import { getTable } from "./api";
 
 export default function Table() {
   const [competition, setCompetition] = useState<string>("bundesliga");
-  const table = useTable(competition);
   const [showStats, setShowStats] = useState<boolean>(false);
+
+  const { data: table, isLoading } = usePromise(getTable, [competition]);
 
   return (
     <List
       throttle
-      isLoading={!table}
+      isLoading={isLoading}
       isShowingDetail={showStats}
       searchBarAccessory={
         <List.Dropdown

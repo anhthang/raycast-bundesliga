@@ -1,8 +1,9 @@
 import { Action, ActionPanel, Detail, Grid, Icon } from "@raycast/api";
+import { usePromise } from "@raycast/utils";
 import json2md from "json2md";
 import { useState } from "react";
+import { getClubs } from "./api";
 import ClubPersons from "./components/clubpersons";
-import { useClubs } from "./hooks";
 import { Club } from "./types";
 
 function ClubProfile(props: { team: Club; competition: string }) {
@@ -114,12 +115,13 @@ function ClubProfile(props: { team: Club; competition: string }) {
 
 export default function Clubs() {
   const [competition, setCompetition] = useState<string>("bundesliga");
-  const clubs = useClubs();
+
+  const { data: clubs, isLoading } = usePromise(getClubs, []);
 
   return (
     <Grid
       throttle
-      isLoading={!clubs}
+      isLoading={isLoading}
       searchBarAccessory={
         <Grid.Dropdown
           tooltip="Filter by Competition"

@@ -1,16 +1,33 @@
-import { Action, ActionPanel, List, Icon, Color, Image } from "@raycast/api";
+import { Action, ActionPanel, Color, Icon, Image, List } from "@raycast/api";
+import { usePromise } from "@raycast/utils";
 import groupBy from "lodash.groupby";
 import { useState } from "react";
+import { getBroadcasters, getFixtures } from "./api";
 import Match from "./components/match";
-import { useFixtures } from "./hooks";
 import { Broadcast } from "./types";
+import { Matchday } from "./types/firebase";
 import { convertToLocalTime } from "./utils";
 
 export default function Fixture() {
   const [competition, setCompetition] = useState<string>("bundesliga");
   const [matchday, setMatchday] = useState<number>();
 
-  const { fixtures, broadcasts } = useFixtures(competition, matchday);
+  const { data: fixtures, isLoading } = usePromise(getFixtures, [
+    competition,
+    matchday,
+  ]);
+  const { data: broadcasts } = usePromise(
+    async (md: Matchday | undefined) => {
+      return md
+        ? await getBroadcasters(
+            md.dflDatalibraryCompetitionId,
+            md.dflDatalibrarySeasonId,
+            md.dflDatalibraryMatchdayId,
+          )
+        : [];
+    },
+    [fixtures?.[0]],
+  );
 
   const categories = fixtures
     ? groupBy(fixtures, (f) => {
@@ -40,7 +57,7 @@ export default function Fixture() {
   return (
     <List
       throttle
-      isLoading={!fixtures}
+      isLoading={isLoading}
       navigationTitle={
         !fixtures
           ? "Fixtures & Results"
