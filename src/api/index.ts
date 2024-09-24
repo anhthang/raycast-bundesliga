@@ -1,6 +1,6 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { Cache, getPreferenceValues } from "@raycast/api";
 import { showFailureToast } from "@raycast/utils";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import * as cheerio from "cheerio";
 import {
   Broadcast,
@@ -32,7 +32,8 @@ function load(html: string, keyContains: string) {
   if (state) {
     try {
       data = JSON.parse(state.replace(/&q;/g, '"').replace(/&s;/g, "'"));
-    } catch (error) {
+    } catch (e) {
+      showFailureToast(e);
       data = {};
     }
   }
@@ -206,7 +207,7 @@ export const getBroadcasters = async (
 ): Promise<Broadcast[]> => {
   const config: AxiosRequestConfig = {
     method: "get",
-    url: `https://wapp.bapi.bundesliga.com/epg/${competition}/${season}/${matchday}`,
+    url: `https://wapp.bapi.bundesliga.com/broadcasts/${competition}/${matchday}`,
     headers,
   };
 
