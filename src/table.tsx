@@ -1,11 +1,18 @@
-import { Action, ActionPanel, Color, Icon, Image, List } from "@raycast/api";
+import { Color, Icon, Image, List } from "@raycast/api";
 import { usePromise } from "@raycast/utils";
 import { useState } from "react";
 import { getTable } from "./api";
 
+const qualificationMap: Record<string, string> = {
+  UEFA_CHAMPIONS_LEAGUE: "UEFA Champions League",
+  UEFA_EUROPA_LEAGUE: "UEFA Europa League",
+  UEFA_EUROPA_LEAGUE_QUALIFICATION: "UEFA Europa Conference League",
+  PLAY_OFF: "Play-Offs",
+  RELEGATION: "Relegation",
+};
+
 export default function Table() {
   const [competition, setCompetition] = useState<string>("bundesliga");
-  const [showStats, setShowStats] = useState<boolean>(false);
 
   const { data: table, isLoading } = usePromise(getTable, [competition]);
 
@@ -13,7 +20,7 @@ export default function Table() {
     <List
       throttle
       isLoading={isLoading}
-      isShowingDetail={showStats}
+      isShowingDetail={true}
       searchBarAccessory={
         <List.Dropdown
           tooltip="Filter by Competition"
@@ -57,25 +64,11 @@ export default function Table() {
               color: Color.PrimaryText,
               value: entry.points.toString(),
             },
+          },
+          {
             icon,
-            tooltip: "Points",
           },
         ];
-
-        if (!showStats) {
-          accessories.unshift(
-            {
-              icon: Icon.SoccerBall,
-              text: entry.gamesPlayed.toString(),
-              tooltip: "Played",
-            },
-            {
-              icon: Icon.Goal,
-              text: `${entry.goalsScored} - ${entry.goalsAgainst}`,
-              tooltip: "Goals For - Goals Against",
-            },
-          );
-        }
 
         return (
           <List.Item
@@ -89,7 +82,14 @@ export default function Table() {
               <List.Item.Detail
                 metadata={
                   <List.Item.Detail.Metadata>
-                    <List.Item.Detail.Metadata.Label title="Stats" />
+                    <List.Item.Detail.Metadata.TagList title="Qualification">
+                      <List.Item.Detail.Metadata.TagList.Item
+                        text={qualificationMap[entry.qualification]}
+                        color={entry.qualificationColor}
+                      />
+                    </List.Item.Detail.Metadata.TagList>
+
+                    <List.Item.Detail.Metadata.Separator />
                     <List.Item.Detail.Metadata.Label
                       title="Played"
                       text={entry.gamesPlayed.toString()}
@@ -106,6 +106,7 @@ export default function Table() {
                       title="Lost"
                       text={entry.losses.toString()}
                     />
+                    <List.Item.Detail.Metadata.Separator />
                     <List.Item.Detail.Metadata.Label
                       title="Goals For"
                       text={entry.goalsScored.toString()}
@@ -121,15 +122,6 @@ export default function Table() {
                   </List.Item.Detail.Metadata>
                 }
               />
-            }
-            actions={
-              <ActionPanel>
-                <Action
-                  title="Show Stats"
-                  icon={Icon.Sidebar}
-                  onAction={() => setShowStats(!showStats)}
-                />
-              </ActionPanel>
             }
           />
         );
