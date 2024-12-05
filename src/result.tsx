@@ -59,9 +59,9 @@ export default function Fixture() {
       throttle
       isLoading={isLoading}
       navigationTitle={
-        !fixtures
-          ? "Fixtures & Results"
-          : `Matchday ${fixtures[0].matchday} | Fixtures & Results`
+        Array.isArray(fixtures) && fixtures.length
+          ? `Matchday ${fixtures[0].matchday} | Fixtures & Results`
+          : "Fixtures & Results"
       }
       searchBarAccessory={
         <List.Dropdown

@@ -9,7 +9,9 @@
 
 type ExtensionPreferences = {
   /** API Key - API key to access Bundesliga data, can be obtained from the network tab of your web browser's developer tools while browsing the Bundesliga website. */
-  "apikey": string
+  "apikey": string,
+  /** Application State ID - Key identifier for the data to be displayed by the extension. Checkout the README for a step-by-step guide on how to obtain this value. */
+  "appstateid": string
 }
 
 /** Preferences accessible in all the extension's commands */
@@ -32,6 +34,4 @@ declare namespace Arguments {
   /** Arguments passed to the `club` command */
   export type Club = {}
 }
-
-
 

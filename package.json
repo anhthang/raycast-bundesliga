@@ -7,6 +7,8 @@
   "author": "anhthang",
   "license": "MIT",
   "categories": [
+    "Data",
+    "Other",
     "Fun"
   ],
   "commands": [
@@ -40,31 +42,35 @@
       "required": false,
       "type": "textfield",
       "default": "60ETUJ4j5YagIHdu-PROD"
+    },
+    {
+      "name": "appstateid",
+      "title": "Application State ID",
+      "description": "Key identifier for the data to be displayed by the extension. Checkout the README for a step-by-step guide on how to obtain this value.",
+      "required": false,
+      "type": "textfield",
+      "default": "ng-state"
     }
   ],
   "dependencies": {
-    "@raycast/api": "^1.81.2",
-    "@raycast/utils": "^1.16.5",
-    "axios": "^1.7.5",
+    "@raycast/api": "^1.87.3",
+    "@raycast/utils": "^1.18.1",
+    "axios": "^1.7.9",
     "cheerio": "^1.0.0",
-    "date-fns": "^3.6.0",
+    "date-fns": "^4.1.0",
     "json2md": "^2.0.1",
     "lodash.groupby": "^4.6.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.11.0",
+    "@eslint/js": "^9.16.0",
     "@raycast/eslint-config": "^1.0.11",
     "@types/json2md": "^1.5.4",
     "@types/lodash.groupby": "^4.6.9",
-    "@types/node": "~22.5.5",
-    "@types/react": "^18.3.8",
-    "eslint": "^9.11.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-react": "^7.36.1",
-    "prettier": "^3.3.3",
-    "react-devtools": "^5.2.0",
-    "typescript": "^5.6.2",
-    "typescript-eslint": "^8.6.0"
+    "@types/react": "^18.3.13",
+    "eslint": "^9.16.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.17.0"
   },
   "scripts": {
     "build": "ray build -e dist",

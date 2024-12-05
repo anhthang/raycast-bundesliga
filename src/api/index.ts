@@ -17,7 +17,7 @@ import {
   SeasonConfig,
 } from "../types/firebase";
 
-const { apikey } = getPreferenceValues();
+const { apikey, appstateid } = getPreferenceValues();
 const cache = new Cache();
 
 const headers = {
@@ -26,7 +26,7 @@ const headers = {
 
 function load(html: string, keyContains: string) {
   const $ = cheerio.load(html);
-  const state = $("#serverApp-state").html();
+  const state = $(`#${appstateid}`).html();
 
   let data;
   if (state) {

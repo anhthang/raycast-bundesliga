@@ -1,5 +1,8 @@
 # Bundesliga Changelog
 
+## [Enhanced User Experience] - {PR_MERGED_DATE}
+- Added a new preference to customize the app state ID, along with detailed instructions for obtaining this value.
+
 ## [API Updates & UI Refinements] - 2024-09-24
 - Updated the API URL to ensure accurate retrieval of broadcast information.
 - Improved the layout and presentation of club profile information for better readability and navigation.
