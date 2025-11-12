@@ -1,6 +1,5 @@
 import { Action, ActionPanel, Detail, Grid, Icon } from "@raycast/api";
 import { usePromise } from "@raycast/utils";
-import json2md from "json2md";
 import { useState } from "react";
 import { getClubs } from "./api";
 import ClubPersons from "./components/clubpersons";
@@ -8,10 +7,17 @@ import { Club } from "./types";
 
 function ClubProfile(props: { team: Club; competition: string }) {
   const { team, competition } = props;
+
+  const markdown = `
+  # ${team.name.full}
+
+<img src="${team.logos[0].uri}" alt="${team.name.full}" width="240" height="240" />
+`;
+
   return (
     <Detail
       navigationTitle={`${team.name.full} | Club`}
-      markdown={json2md([{ img: { source: team.logos[0].uri } }])}
+      markdown={markdown}
       metadata={
         team && (
           <Detail.Metadata>

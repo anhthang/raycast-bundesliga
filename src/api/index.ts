@@ -22,6 +22,8 @@ const cache = new Cache();
 
 const headers = {
   "x-api-key": apikey,
+  "User-Agent":
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
 };
 
 function load(html: string, keyContains: string) {
@@ -139,6 +141,7 @@ export const getTable = async (competition: string): Promise<Entry[]> => {
   const config: AxiosRequestConfig = {
     method: "get",
     url: `https://www.bundesliga.com/en/${competition}/table`,
+    headers,
   };
 
   try {
@@ -166,6 +169,7 @@ export const getFixtures = async (
   const config: AxiosRequestConfig = {
     method: "get",
     url,
+    headers,
   };
 
   try {
@@ -186,6 +190,7 @@ export const getMatch = async (
   const config: AxiosRequestConfig = {
     method: "get",
     url,
+    headers,
   };
 
   try {
